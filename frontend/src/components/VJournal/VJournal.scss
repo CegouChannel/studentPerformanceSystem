@@ -1,0 +1,33 @@
+@import '@/assets/scss/variables';
+
+.table {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  &-content {
+    border-collapse: collapse;
+  }
+
+  &-head {
+  }
+
+  &-lessons {
+  }
+
+  &-body {
+  }
+
+  &-students {
+    &-fio {
+    }
+  }
+}
+.wasNot {
+  background: $secondary;
+  color: $white;
+}
+
+.sick {
+  background: $primary;
+  color: $white;
+}
