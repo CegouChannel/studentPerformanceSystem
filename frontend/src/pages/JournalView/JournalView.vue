@@ -5,11 +5,11 @@ import VJournal from '@/components/VJournal/VJournal.vue'
 import VSelect from '@/components/UI/VSelect/VSelect.vue'
 import VModalWindow from '@/components/UI/VModalWindow/VModalWindow.vue'
 import VButton from '@/components/UI/VButton/VButton.vue'
-import { useStudentStore } from '@/store/studentStore.js'
-import { useGroupStore } from '@/store/groupStore.js'
-import { useLessonsStore } from '@/store/lessonsStore.js'
-import { computed, ref } from 'vue'
-import { useJournalStore } from '@/store/journalStore.js'
+import {useStudentStore} from '@/store/studentStore.js'
+import {useGroupStore} from '@/store/groupStore.js'
+import {useLessonsStore} from '@/store/lessonsStore.js'
+import {computed, ref} from 'vue'
+import {useJournalStore} from '@/store/journalStore.js'
 import JournalService from '@/API/journalService.js'
 
 const studentStore = useStudentStore()
@@ -17,7 +17,7 @@ const groupStore = useGroupStore()
 const lessonStore = useLessonsStore()
 const journalStore = useJournalStore()
 
-const activeGroup = ref(2)
+const activeGroup = ref(3)
 const editJournalWindowOpened = ref(false)
 const estimates = [
   {
@@ -60,9 +60,9 @@ const switchEditJournal = (data) => {
 const changeStatusJournal = (status) => {
   formEditJournal.value.status = status
   const index = journalStore.journal.findIndex(
-    (journal) =>
-      journal.id_student === formEditJournal.value.studentId &&
-      journal.id_lesson === formEditJournal.value.lessonId
+      (journal) =>
+          journal.id_student === formEditJournal.value.studentId &&
+          journal.id_lesson === formEditJournal.value.lessonId
   )
   if (index === -1) {
     const reqAddJournal = JournalService.addJournal(formEditJournal.value)
@@ -77,8 +77,8 @@ const changeStatusJournal = (status) => {
     formEditJournal.value.estimate = journalStore.journal[index].estimate
     const journalId = journalStore.journal[index].id
     const reqEditJournal = JournalService.editJournal(
-      formEditJournal.value,
-      journalId
+        formEditJournal.value,
+        journalId
     )
     if (!reqEditJournal.insertId) {
       journalStore.journal[index].status = status
@@ -89,9 +89,9 @@ const changeStatusJournal = (status) => {
 const changeEstimateJournal = (estimate) => {
   formEditJournal.value.estimate = estimate
   const index = journalStore.journal.findIndex(
-    (journal) =>
-      journal.id_student === formEditJournal.value.studentId &&
-      journal.id_lesson === formEditJournal.value.lessonId
+      (journal) =>
+          journal.id_student === formEditJournal.value.studentId &&
+          journal.id_lesson === formEditJournal.value.lessonId
   )
   if (index === -1) {
     const reqAddJournal = JournalService.addJournal(formEditJournal.value)
@@ -106,8 +106,8 @@ const changeEstimateJournal = (estimate) => {
     formEditJournal.value.status = journalStore.journal[index].status
     const journalId = journalStore.journal[index].id
     const reqEditJournal = JournalService.editJournal(
-      formEditJournal.value,
-      journalId
+        formEditJournal.value,
+        journalId
     )
     if (!reqEditJournal.insertId) {
       journalStore.journal[index].estimate = estimate
@@ -149,23 +149,25 @@ await lessonStore.getLessons()
 
 <template>
   <div class="journal">
-    <VSidebar />
+    <VSidebar/>
     <div class="journal-body">
-      <VHeader />
-      <h3 class="journal-title">Журнал</h3>
-      <div class="table-actions">
-        <VSelect
-          v-model="activeGroup"
-          :options="groupStore.groups"
-          disabled-option="Выберите группу"
+      <VHeader/>
+      <div class="journal-content">
+        <h3 class="journal-title">Журнал</h3>
+        <div class="table-actions">
+          <VSelect
+              v-model="activeGroup"
+              :options="groupStore.groups"
+              disabled-option="Выберите группу"
+          />
+        </div>
+        <VJournal
+            @openEditForm="switchEditJournal"
+            :lessons="getLessonsByGroup"
+            :students="getStudentsByGroup"
+            :journal="journalStore.journal"
         />
       </div>
-      <VJournal
-        @openEditForm="switchEditJournal"
-        :lessons="getLessonsByGroup"
-        :students="getStudentsByGroup"
-        :journal="journalStore.journal"
-      />
     </div>
     <VModalWindow :is-open="editJournalWindowOpened">
       <div class="editJournal">
@@ -177,32 +179,32 @@ await lessonStore.getLessons()
         <h4 class="editJournal-subtitle">Отсутствие</h4>
         <div class="editJournal-status">
           <VButton
-            @click="changeStatusJournal('не был')"
-            color="secondary"
-            size="large"
-            >Не был
+              @click="changeStatusJournal('не был')"
+              color="secondary"
+              size="large"
+          >Не был
           </VButton>
           <VButton
-            @click="changeStatusJournal('болел')"
-            color="primary"
-            size="large"
-            >Болел
+              @click="changeStatusJournal('болел')"
+              color="primary"
+              size="large"
+          >Болел
           </VButton>
         </div>
         <h4 class="editJournal-subtitle">Оценка</h4>
         <div class="editJournal-estimate">
           <VButton
-            v-for="estimate in estimates"
-            :key="estimate.id"
-            @click="changeEstimateJournal(estimate.value)"
-            :color="estimate.color"
-            size="icon"
-            >{{ estimate.value }}
+              v-for="estimate in estimates"
+              :key="estimate.id"
+              @click="changeEstimateJournal(estimate.value)"
+              :color="estimate.color"
+              size="icon"
+          >{{ estimate.value }}
           </VButton>
         </div>
         <div class="editJournal-actions">
           <VButton @click="switchEditJournal" color="primary" size="small"
-            >готово
+          >готово
           </VButton>
         </div>
       </div>

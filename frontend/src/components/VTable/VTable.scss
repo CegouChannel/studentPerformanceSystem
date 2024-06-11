@@ -49,6 +49,14 @@
     }
   }
 
+  &-err {
+    font-size: 16px;
+    text-align: center;
+    color: $secondary;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
   &-body {
     width: 100%;
     display: grid;
@@ -90,4 +98,15 @@
       }
     }
   }
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }

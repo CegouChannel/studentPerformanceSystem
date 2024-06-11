@@ -79,6 +79,22 @@
   }
 }
 
+.dialogDelete {
+  &-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  &-cancel {
+    margin-right: 20px;
+  }
+}
+
 .list-item {
   display: inline-block;
   margin-right: 10px;

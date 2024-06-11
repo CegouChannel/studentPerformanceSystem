@@ -8,6 +8,10 @@ const props = defineProps({
     type: String,
     default: 'normal',
   },
+  type: {
+    type: String,
+    default: 'text',
+  },
 })
 </script>
 
@@ -15,6 +19,7 @@ const props = defineProps({
   <v-text-field
     :class="['ipt', `ipt_${size}`]"
     :label="placeholder"
+    :type="type"
   ></v-text-field>
 </template>
 

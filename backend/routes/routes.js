@@ -4,6 +4,7 @@ import * as GroupController from "../controllers/GroupController.js"
 import * as PlanTrainingController from "../controllers/PlanTrainingController.js"
 import * as LessonsController from '../controllers/LessonController.js'
 import * as JournalController from '../controllers/JournalController.js'
+import * as UserController from '../controllers/UserController.js'
 
 const router = express.Router()
 
@@ -36,4 +37,7 @@ router.get('/journal/:id', JournalController.showJournalById)
 router.post('/journal', JournalController.createJournal)
 router.put('/journal/:id', JournalController.updateJournal)
 router.delete('/journal/:id', JournalController.deleteJournal)
+
+router.post('/login', UserController.login)
+// router.post('/login', UserController.createUser)
 export default router

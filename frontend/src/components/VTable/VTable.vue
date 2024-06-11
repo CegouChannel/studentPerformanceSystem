@@ -2,7 +2,8 @@
 import VInput from '@/components/UI/VInput/VInput.vue'
 import VButton from '@/components/UI/VButton/VButton.vue'
 import VSelect from '@/components/UI/VSelect/VSelect.vue'
-import { useGroupStore } from '@/store/groupStore.js'
+import {ref, watch} from 'vue'
+import {useGroupStore} from '@/store/groupStore.js'
 
 const props = defineProps({
   title: {
@@ -16,6 +17,13 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  err: {
+    type: String,
+  },
+  placeholderSearch: {
+    type: String,
+    default: 'Поиск'
+  }
 })
 
 const emit = defineEmits([
@@ -23,11 +31,22 @@ const emit = defineEmits([
   'deleteById',
   'switchEditWindow',
   'onPageChange',
+  'searchByInpAndSelect',
 ])
 const groupStore = useGroupStore()
 
+const valuesSearch = ref({
+  inp: '',
+  select: ''
+})
+
+
 const switchAddWindow = () => {
   emit('switchAddWindow')
+}
+
+const searchTable = () => {
+  emit('searchByInpAndSelect', valuesSearch.value)
 }
 
 await groupStore.getGroups()
@@ -44,36 +63,39 @@ await groupStore.getGroups()
       </div>
       <div class="table-head-actions">
         <div class="table-head-input">
-          <VInput placeholder="Поиск" size="large" />
+          <VInput @input="searchTable" v-model="valuesSearch.inp" :placeholder="placeholderSearch" size="large"/>
         </div>
         <div class="table-head-select">
           <VSelect
-            disabled-option="Выберите группу"
-            :options="options"
-            size="large"
+              v-if="options"
+              v-model="valuesSearch.select"
+              disabled-option="Выберите группу"
+              @update:modelValue="searchTable"
+              :options="options"
+              size="large"
           />
-        </div>
-        <div class="table-head-search">
-          <VButton color="secondary" size="large">ПОИСК</VButton>
         </div>
       </div>
     </div>
+    <TransitionGroup name="list" tag="ul">
+      <h1 v-if="err" class="table-err">{{ err }}</h1>
+    </TransitionGroup>
     <div class="table-body">
       <table class="table-body-head">
         <tbody>
-          <tr
+        <tr
             :style="`grid-template-columns: 0.2fr repeat(${tableHead.length}, 1fr);`"
-          >
-            <td v-for="head in tableHead" :key="head.id">
-              {{ head.name }}
-            </td>
-            <td>действия</td>
-          </tr>
+        >
+          <td v-for="head in tableHead" :key="head.id">
+            {{ head.name }}
+          </td>
+          <td>действия</td>
+        </tr>
         </tbody>
       </table>
       <table class="table-body-data">
         <tbody>
-          <slot></slot>
+        <slot></slot>
         </tbody>
       </table>
     </div>

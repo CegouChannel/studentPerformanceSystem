@@ -25,8 +25,8 @@ const openEditForm = (studentId, lessonId) => {
 
 const getEstimate = (studentId, lessonId) => {
   const index = props.journal.findIndex(
-    (journal) =>
-      journal.id_student === studentId && journal.id_lesson === lessonId
+      (journal) =>
+          journal.id_student === studentId && journal.id_lesson === lessonId
   )
   if (index !== -1 && props.journal[index].estimate !== 0) {
     return props.journal[index].estimate
@@ -35,53 +35,58 @@ const getEstimate = (studentId, lessonId) => {
 
 const getStatus = (studentId, lessonId) => {
   const index = props.journal.findIndex(
-    (journal) =>
-      journal.id_student === studentId && journal.id_lesson === lessonId
+      (journal) =>
+          journal.id_student === studentId && journal.id_lesson === lessonId
   )
   if (index !== -1) {
     return props.journal[index].status
   }
   return false
 }
+
+const getShortFio = (fio) => {
+  const parts = fio.split(' ')
+  return `${parts[0]} ${parts[1].charAt(0)}. ${parts[2].charAt(0)}.`
+}
 </script>
 
 <template>
   <div class="table">
-    <table class="table-content">
+    <table class="table-content students">
       <thead class="table-head">
-        <tr class="table-head-row">
-          <th class="table-head-student">Студент</th>
-        </tr>
+      <tr class="table-head-row">
+        <th class="table-head-student">Студент</th>
+      </tr>
       </thead>
       <tbody class="table-body">
-        <tr
+      <tr
           class="table-body-row"
           v-for="student in students"
           :key="student.id"
-        >
-          <td class="table-body-fio">{{ student.fio }}</td>
-        </tr>
+      >
+        <td :title="student.fio" class="table-body-fio">{{ getShortFio(student.fio) }}</td>
+      </tr>
       </tbody>
     </table>
-    <table class="table-content">
+    <table class="table-content lessons">
       <thead class="table-head">
-        <tr class="table-head-row">
-          <th
+      <tr class="table-head-row">
+        <th
             v-for="lesson in lessons"
             :key="lesson.id"
             class="table-head-lesson"
-          >
-            {{ lesson.name }}
-          </th>
-        </tr>
+        >
+          {{ lesson.name }}
+        </th>
+      </tr>
       </thead>
       <tbody class="table-body">
-        <tr
+      <tr
           class="table-body-row"
           v-for="student in students"
           :key="student.id"
-        >
-          <td
+      >
+        <td
             v-for="lesson in lessons"
             :key="lesson.id"
             :class="[
@@ -90,10 +95,10 @@ const getStatus = (studentId, lessonId) => {
               { wasNot: getStatus(student.id, lesson.id) === 'не был' },
             ]"
             @click="openEditForm(student.id, lesson.id)"
-          >
-            {{ getEstimate(student.id, lesson.id) }}
-          </td>
-        </tr>
+        >
+          {{ getEstimate(student.id, lesson.id) }}
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

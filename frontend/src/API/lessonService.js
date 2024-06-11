@@ -17,7 +17,7 @@ export default class LessonService {
     }
   }
 
-  static async addLesson(dataGroup) {
+  static async addLesson(dataLesson) {
     try {
       const response = await axiosInstance({
         url: '/lessons',
@@ -27,8 +27,8 @@ export default class LessonService {
         },
         method: 'POST',
         data: JSON.stringify({
-          name: dataGroup.name,
-          planTraining: dataGroup.planTraining,
+          name: dataLesson.name,
+          planTraining: dataLesson.planTraining,
         }),
       })
       return response.data
@@ -60,7 +60,7 @@ export default class LessonService {
   static async deleteLessonById(id) {
     try {
       const response = await axiosInstance({
-        url: `/groups/${id}`,
+        url: `/lessons/${id}`,
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',

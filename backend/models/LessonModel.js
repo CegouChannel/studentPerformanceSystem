@@ -21,7 +21,7 @@ export const getLessonById = (id, result) => {
 }
 
 export const insertLesson = (data, result) => {
-    conn.query("INSERT INTO lessons (id, id_plan, name) VALUES (NULL, ?, ?)", [data.idPlan, data.name], (err, results) => {
+    conn.query("INSERT INTO lessons (id, id_plan, name) VALUES (NULL, ?, ?)", [data.planTraining, data.name], (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -33,7 +33,8 @@ export const insertLesson = (data, result) => {
 }
 
 export const updateLessonById = (data, id, result) => {
-    conn.query("UPDATE lessons SET id_plan = ?, name = ?  WHERE id = ?", [data.idPlan, data.name, id], (err, results) => {
+    console.log(data)
+    conn.query("UPDATE lessons SET id_plan = ?, name = ?  WHERE id = ?", [data.planTraining, data.name, id], (err, results) => {
         if (err) {
             result(err, null)
         } else {

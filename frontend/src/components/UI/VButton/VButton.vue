@@ -12,10 +12,16 @@ const props = defineProps({
     required: false,
   },
 })
+
+const emit = defineEmits(['click'])
+
+const click = () => {
+  emit('click')
+}
 </script>
 
 <template>
-  <v-btn icon="$vuetify" :class="['btn', `btn_${size}`, `btn_${color}`]">
+  <v-btn @click="click" icon="$vuetify" :class="['btn', `btn_${size}`, `btn_${color}`]">
     <slot></slot>
   </v-btn>
 </template>

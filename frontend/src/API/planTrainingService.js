@@ -29,7 +29,7 @@ export default class PlanTrainingService {
   static async addPlanTraining(dataGroup) {
     try {
       const response = await axiosInstance({
-        url: '/groups',
+        url: '/plansTraining',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',

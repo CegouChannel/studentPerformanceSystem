@@ -13,15 +13,20 @@ const props = defineProps({
     required: true,
   },
 })
+
+const emit = defineEmits(['change'])
 </script>
 
 <template>
   <v-select
-    :class="['select', `select_${size}`]"
-    :items="options"
-    item-title="title"
-    item-value="value"
-    :label="disabledOption"
+      @input="emit('input')"
+      :class="['select', `select_${size}`]"
+      :items="options"
+      item-title="title"
+      item-value="value"
+      :label="disabledOption"
+      :disabled-option="disabledOption"
+      :options="options"
   ></v-select>
 </template>
 
